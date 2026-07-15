@@ -1087,19 +1087,22 @@ export default function PresentationPage() {
             {navItems.map((item) => {
               const ac = accentColors[item.accent];
               const isActive = item.id === activeSessionId || (item.id === "hero" && activeSlide === "hero");
+              const mobileLabel = item.id === "hero" ? "Portada" : item.label.replace(/^S\d+: /, "").slice(0, 14);
+              const desktopLabel = item.label;
               return (
                 <button
                   key={item.id}
                   onClick={() => item.id === "hero" ? scrollTo("hero") : goToSession(item.id)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 flex-shrink-0 ${
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold whitespace-nowrap transition-all duration-200 flex-shrink-0 ${
                     isActive
                       ? `${ac.bg} ${ac.text} border ${ac.border} shadow-sm`
                       : "text-slate-400 dark:text-text-muted hover:text-slate-600 dark:hover:text-text-secondary hover:bg-slate-100 dark:hover:bg-obsidian-700/30"
                   }`}
-                  title={item.label}
+                  title={desktopLabel}
                 >
-                  <item.icon size={13} />
-                  {item.label.length > 20 ? item.label.slice(0, 17) + "\u2026" : item.label}
+                  <item.icon size={12} />
+                  <span className="hidden sm:inline">{desktopLabel.length > 20 ? desktopLabel.slice(0, 17) + "\u2026" : desktopLabel}</span>
+                  <span className="sm:hidden">{mobileLabel}</span>
                 </button>
               );
             })}
@@ -1191,29 +1194,29 @@ export default function PresentationPage() {
       )}
 
       {/* ═══════ HERO ═══════ */}
-      <section id="hero" className="h-screen flex items-center justify-center relative overflow-hidden snap-start">
+      <section id="hero" className="h-dvh flex items-center justify-center relative overflow-hidden snap-start">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-obsidian-950 dark:via-obsidian-900 dark:to-[#0a1628]" />
         <div className="absolute top-0 right-0 w-[60%] h-full bg-gradient-to-l from-amber-100/60 dark:from-amber-500/5 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-[4px] bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
 
-        <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
-          <div className="section-badge bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-500/30 mb-8">
+        <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto">
+          <div className="section-badge bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-500/30 mb-6 sm:mb-8 text-[10px] sm:text-xs">
             Bancomext &middot; UNICEBA &middot; Edici&oacute;n 2026
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 text-balance text-slate-900 dark:text-white">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 sm:mb-6 text-balance text-slate-900 dark:text-white">
             Plan de Negocios para Proyectos de Exportaci&oacute;n
           </h1>
-          <div className="w-20 h-[2px] bg-amber-500 mx-auto my-6" />
-          <p className="text-lg md:text-xl text-slate-500 dark:text-text-secondary mb-8 max-w-xl mx-auto">
+          <div className="w-16 sm:w-20 h-[2px] bg-amber-500 mx-auto my-4 sm:my-6" />
+          <p className="text-sm sm:text-lg md:text-xl text-slate-500 dark:text-text-secondary mb-6 sm:mb-8 max-w-xl mx-auto">
             Gu&iacute;a metodol&oacute;gica para la elaboraci&oacute;n de planes de negocio de exportaci&oacute;n en el entorno global actual
           </p>
-          <p className="text-sm text-slate-400 dark:text-text-muted mb-2">Curso completo &middot; 18 Sesiones &middot; {slideOrder.length} Slides</p>
-          <p className="text-sm text-slate-400 dark:text-text-muted">Actualizaci&oacute;n 2026: Lic. Guillermo Hern&aacute;ndez &amp; Ing. Rodolfo Ram&iacute;rez</p>
+          <p className="text-xs sm:text-sm text-slate-400 dark:text-text-muted mb-1">Curso completo &middot; 18 Sesiones &middot; {slideOrder.length} Slides</p>
+          <p className="text-xs sm:text-sm text-slate-400 dark:text-text-muted">Actualizaci&oacute;n 2026: Lic. Guillermo Hern&aacute;ndez &amp; Ing. Rodolfo Ram&iacute;rez</p>
           <button
             onClick={() => scrollTo("s01-1")}
-            className="mt-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500 text-white hover:bg-amber-600 transition-colors font-semibold shadow-lg shadow-amber-500/25"
+            className="mt-8 sm:mt-10 inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-amber-500 text-white hover:bg-amber-600 transition-colors font-semibold text-sm sm:text-base shadow-lg shadow-amber-500/25"
           >
-            Comenzar curso <ArrowRight size={18} />
+            Comenzar curso <ArrowRight size={16} className="sm:size-[18px]" />
           </button>
         </div>
       </section>
@@ -1228,7 +1231,7 @@ export default function PresentationPage() {
           <section
             key={fs.id}
             id={fs.id}
-            className="h-screen flex flex-col justify-center relative overflow-hidden snap-start"
+            className="h-dvh flex flex-col justify-center relative overflow-hidden snap-start"
           >
             {/* Background */}
             <div className="absolute inset-0 bg-slate-50 dark:bg-obsidian-950" />
@@ -1236,46 +1239,46 @@ export default function PresentationPage() {
 
             <div className="section-container relative z-10 flex flex-col justify-center h-full">
               {/* Session badge */}
-              <div className="flex-shrink-0 mb-3 flex items-center justify-between">
-                <div className={`section-badge ${ac.bg} ${ac.text} border ${ac.border}`}>
+              <div className="flex-shrink-0 mb-2 sm:mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+                <div className={`section-badge ${ac.bg} ${ac.text} border ${ac.border} text-[10px] sm:text-xs w-fit`}>
                   {fs.bloque}
-                  {isFirstOfSession && ` \u2014 ${fs.sessionTitle}`}
+                  {isFirstOfSession && <span className="hidden sm:inline"> \u2014 {fs.sessionTitle}</span>}
                 </div>
-                <span className={`text-xs font-mono font-semibold px-3 py-1.5 rounded-full bg-slate-100 dark:bg-obsidian-800 ${ac.text}`}>
+                <span className={`text-[10px] sm:text-xs font-mono font-semibold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full bg-slate-100 dark:bg-obsidian-800 ${ac.text} w-fit`}>
                   Slide {fs.slideNum} de {fs.totalInSession} &middot; Sesi&oacute;n {fs.sessionId.replace("s","")}
                 </span>
               </div>
 
               {/* Slide Card */}
-              <div className="glass-card h-full flex flex-col p-6 md:p-8 overflow-y-auto">
+              <div className="glass-card flex-1 min-h-0 flex flex-col p-4 sm:p-6 md:p-8 overflow-y-auto">
                 {/* Header */}
-                <div className="flex items-start gap-4 mb-5 pb-4 border-b border-slate-100 dark:border-obsidian-600/30">
-                  <div className={`p-3 rounded-xl ${ac.bg} flex-shrink-0`}>
-                    <SlideIcon size={26} className={ac.text} />
+                <div className="flex items-start gap-2 sm:gap-4 mb-3 sm:mb-5 pb-3 sm:pb-4 border-b border-slate-100 dark:border-obsidian-600/30">
+                  <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl ${ac.bg} flex-shrink-0`}>
+                    <SlideIcon size={20} className={ac.text + " sm:size-[26px]"} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h2 className="text-xl md:text-2xl font-bold font-display text-slate-800 dark:text-white leading-tight">
+                    <h2 className="text-base sm:text-xl md:text-2xl font-bold font-display text-slate-800 dark:text-white leading-tight">
                       {fs.slide.title}
                     </h2>
-                    <p className="text-xs md:text-sm text-slate-400 dark:text-text-muted mt-1">
+                    <p className="text-[11px] sm:text-xs md:text-sm text-slate-400 dark:text-text-muted mt-0.5 sm:mt-1">
                       {fs.sessionTitle}
                     </p>
                   </div>
                 </div>
 
                 {/* Content Blocks */}
-                <div className="space-y-3 flex-1">
+                <div className="space-y-2 sm:space-y-3 flex-1">
                   {fs.slide.content.map((bullet, i) => {
                     const BulletIcon = getBulletIcon(bullet, i);
                     return (
                       <div
                         key={i}
-                        className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-obsidian-800/20 border border-slate-100 dark:border-obsidian-600/20 hover:border-slate-200 dark:hover:border-obsidian-500/30 transition-all"
+                        className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg sm:rounded-xl bg-slate-50 dark:bg-obsidian-800/20 border border-slate-100 dark:border-obsidian-600/20 hover:border-slate-200 dark:hover:border-obsidian-500/30 transition-all"
                       >
-                        <div className={`p-1.5 rounded-lg ${ac.bg} flex-shrink-0 mt-0.5`}>
-                          <BulletIcon size={16} className={ac.text} />
+                        <div className={`p-1 sm:p-1.5 rounded-md sm:rounded-lg ${ac.bg} flex-shrink-0 mt-0.5`}>
+                          <BulletIcon size={13} className={ac.text + " sm:size-[16px]"} />
                         </div>
-                        <p className="text-sm md:text-base text-slate-600 dark:text-text-secondary leading-relaxed">
+                        <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-text-secondary leading-relaxed">
                           {bullet}
                         </p>
                       </div>
@@ -1285,10 +1288,10 @@ export default function PresentationPage() {
 
                 {/* Highlight */}
                 {fs.slide.highlight && (
-                  <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-amber-50 to-transparent dark:from-amber-500/5 dark:to-transparent border-l-4 border-amber-500">
-                    <div className="flex items-start gap-2">
-                      <Quote size={16} className="text-amber-500 flex-shrink-0 mt-0.5" />
-                      <p className="text-sm md:text-base font-medium italic text-slate-700 dark:text-white">
+                  <div className="mt-3 sm:mt-4 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-amber-50 to-transparent dark:from-amber-500/5 dark:to-transparent border-l-4 border-amber-500">
+                    <div className="flex items-start gap-1.5 sm:gap-2">
+                      <Quote size={14} className="text-amber-500 flex-shrink-0 mt-0.5 sm:size-[16px]" />
+                      <p className="text-xs sm:text-sm md:text-base font-medium italic text-slate-700 dark:text-white">
                         {fs.slide.highlight}
                       </p>
                     </div>
